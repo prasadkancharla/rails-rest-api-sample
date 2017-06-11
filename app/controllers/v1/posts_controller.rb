@@ -22,12 +22,20 @@ module V1
 
     # PUT /posts/:id
     def update
+      unless current_user.id == @post.user
+        redirect_to(@post, notice: "You cannot edit this post") and return
+      end
+
       @post.update(post_params)
       head :no_content
     end
 
     # DELETE /posts/:id
     def destroy
+      unless current_user.id == @post.user
+        redirect_to(@post, notice: "You cannot edit this post") and return
+      end
+
       @post.destroy
       head :no_content
     end
