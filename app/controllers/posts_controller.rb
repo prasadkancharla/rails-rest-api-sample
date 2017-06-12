@@ -1,4 +1,3 @@
-module V1
   class PostsController < ApplicationController
     before_action :set_post, only: [:show, :update, :destroy]
 
@@ -23,7 +22,8 @@ module V1
     # PUT /posts/:id
     def update
       unless current_user.id == @post.user
-        redirect_to(@post, notice: "You cannot edit this post") and return
+        json_response({message: "You cannot edit this post"})
+        return
       end
 
       @post.update(post_params)
@@ -33,7 +33,8 @@ module V1
     # DELETE /posts/:id
     def destroy
       unless current_user.id == @post.user
-        redirect_to(@post, notice: "You cannot edit this post") and return
+        json_response({message: "You cannot delete this post"})
+        return
       end
 
       @post.destroy
@@ -51,4 +52,3 @@ module V1
       @post = Post.find(params[:id])
     end
   end
-end
